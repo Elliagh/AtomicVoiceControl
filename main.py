@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from SpeechRecognize import Recognizer
 
+
 app = FastAPI(
     title="AtomApp"
 )
@@ -192,7 +193,7 @@ def speakmicro():
     Команда : {text}
     </div>
     <body>
-     <form action="/sendcommand&command='{text}'" target="_blank">
+     <form action="/recieve_command&command='{text}'" target="_blank">
     <button>Нажми если это то что ты говорил</button>
     </form>
     </body>
@@ -204,23 +205,7 @@ def speakmicro():
     </html>
     """
 
-
-@app.get("/sendcommand{command}", response_class=HTMLResponse)
-def send_command(command: str):
+@app.get("/recieve_command{command}")
+def send_command(command : str):
     command = command[10:-1]
-    return f"""<!DOCTYPE html>
-        <html>
-        <head>
-        <meta charset="utf-8">
-        <title>Кнопка</title>
-        </head>
-        <div>
-        Результат : {command}
-        </div>
-        <body>
-         <form action="/" target="_blank">
-        <button>Нажми чтобы вернуться на главную</button>
-        </form>
-        </body>
-        </html>
-        """
+    return command
