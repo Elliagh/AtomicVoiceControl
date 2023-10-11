@@ -1,9 +1,6 @@
-voice_recognition
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from SpeechRecognize import Recognizer
-
-
 app = FastAPI(
     title="AtomApp"
 )
@@ -209,15 +206,5 @@ def speakmicro():
 @app.get("/recieve_command{command}")
 def send_command(command : str):
     command = command[10:-1]
+
     return command
-  
-from SpeechValidators import CommandValidator, ZoneValidator
-from SpeechValidators import CommandsInfo
-cv = CommandValidator.CommandValidator(CommandsInfo.comms)
-print(cv.find_command("включить свет"))
-zones = CommandsInfo.zones
-print(zones)
-zone_info = CommandsInfo.zones
-zv = ZoneValidator.ZoneValidator(zone_info)
-print(zv.check_zone("far", "построить маршрут для точки"))
-develop
