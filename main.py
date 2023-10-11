@@ -1,9 +1,12 @@
-from fastapi import FastAPI
+import uvicorn
+from fastapi import FastAPI, APIRouter
 from fastapi.responses import HTMLResponse
 from SpeechRecognize import Recognizer
 app = FastAPI(
     title="AtomApp"
 )
+
+router = APIRouter()
 
 @app.get("/", response_class=HTMLResponse)
 def speak():
@@ -208,3 +211,6 @@ def send_command(command : str):
     command = command[10:-1]
 
     return command
+
+if __name__ == '__main__':
+    uvicorn.run(app, host="localhost", port=8080)

@@ -1,22 +1,18 @@
 from datetime import datetime
 
 import sqlalchemy
-from sqlalchemy import ForeignKey, Column, Integer, String, TIMESTAMP, PrimaryKeyConstraint
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey, Column, Integer, String, TIMESTAMP
+from sqlalchemy.orm import relationship, declarative_base
 
-from sql_app.database import Base
+Base = declarative_base()
 
-metadata = Base.metadata
-
-
-# TODO сделать валидацию (location, car_type[может enum есть])
 class Users(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, unique=True)
     firstname = Column(String)
     secondname = Column(String)
     location = Column(String)
-    email = Column(String)
+    email = Column(String, unique=True)
     address = Column(String)
     number = Column(Integer)
     cars = relationship("CarsUsers", backref="users")
