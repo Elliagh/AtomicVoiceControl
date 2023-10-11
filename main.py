@@ -1,3 +1,216 @@
+voice_recognition
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+from SpeechRecognize import Recognizer
+
+
+app = FastAPI(
+    title="AtomApp"
+)
+
+@app.get("/", response_class=HTMLResponse)
+def speak():
+    return """
+<!DOCTYPE html>
+<html style="font-size: 16px;"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Voice Manager Car, Нажмите на кнопку и говорите в течении 5 секунд"><meta name="description" content="">
+    <title></title>
+    <link rel="stylesheet" href="/nicepage.css" media="screen">
+    <script class="u-script" type="text/javascript" src="np://app.desktop.nicepage.com/jquery.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="np://app.desktop.nicepage.com/nicepage.js" defer=""></script>
+<meta name="generator" content="Nicepage 5.19.3, nicepage.com"></head>
+<body class="u-body u-overlap u-xl-mode" data-style="blank" data-posts="" data-global-section-properties="{&quot;colorings&quot;:{&quot;light&quot;:[&quot;clean&quot;],&quot;colored&quot;:[&quot;clean&quot;],&quot;dark&quot;:[&quot;dark&quot;]}}" data-source="blank" data-lang="ru" data-page-sections-style="[{&quot;name&quot;:&quot;blank&quot;}]" data-page-coloring-types="{&quot;light&quot;:[&quot;clean&quot;],&quot;colored&quot;:[&quot;clean&quot;],&quot;dark&quot;:[&quot;dark&quot;]}" data-page-category="&quot;Basic&quot;"><section class="u-clearfix u-block-6981-1" custom-posts-hash="[]" data-style="blank" data-section-properties="{&quot;margin&quot;:&quot;none&quot;,&quot;stretch&quot;:true}" id="sec-34c5" data-id="6981">
+  <div class="u-clearfix u-sheet u-block-6981-2"><h1 class="u-text u-text-default-xs u-block-6981-6">Voice Manager Car</h1><a href="/speak" class="u-active-palette-2-dark-1 u-border-none u-btn u-button-style u-hover-palette-3-base u-palette-1-base u-block-6981-3">Где деньги Лебовски</a><h1 class="u-text u-block-6981-5">Нажмите на кнопку и говорите в течении 5 секунд</h1></div>
+<style data-mode="XL" data-visited="true">@media (min-width: 1200px) {
+  .u-block-6981-2 {
+    min-height: 1105px;
+  }
+  .u-block-6981-6 {
+    margin-top: 284px;
+    margin-right: -194px;
+    margin-bottom: 0;
+    margin-left: 218px;
+  }
+  .u-block-6981-3 {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 82px;
+    margin-right: auto;
+    margin-bottom: 0;
+    margin-left: 267px;
+    padding-top: 59px;
+    padding-right: 186px;
+    padding-bottom: 59px;
+    padding-left: 185px;
+  }
+  .u-block-6981-5 {
+    width: 779px;
+    margin-top: 61px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 60px;
+  }
+}</style><style data-mode="LG" data-visited="true">@media (max-width: 1199px) and (min-width: 992px) {
+  .u-block-6981-2 {
+    min-height: 1105px;
+  }
+  .u-block-6981-6 {
+    width: auto;
+    margin-top: 275px;
+    margin-right: -237px;
+    margin-bottom: 0;
+    margin-left: 261px;
+  }
+  .u-block-6981-3 {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 87px;
+    margin-right: auto;
+    margin-bottom: 0;
+    margin-left: 131px;
+    padding-top: 59px;
+    padding-right: 186px;
+    padding-bottom: 59px;
+    padding-left: 185px;
+  }
+  .u-block-6981-5 {
+    width: auto;
+    margin-top: 67px;
+    margin-right: 174px;
+    margin-bottom: 60px;
+    margin-left: 87px;
+  }
+}</style><style data-mode="MD" data-visited="true">@media (max-width: 991px) and (min-width: 768px) {
+  .u-block-6981-2 {
+    min-height: 1105px;
+  }
+  .u-block-6981-6 {
+    width: auto;
+    margin-top: 206px;
+    margin-right: -19px;
+    margin-bottom: 0;
+    margin-left: 43px;
+  }
+  .u-block-6981-3 {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 38px;
+    margin-right: auto;
+    margin-bottom: 0;
+    margin-left: 118px;
+    padding-top: 59px;
+    padding-right: 186px;
+    padding-bottom: 59px;
+    padding-left: 185px;
+  }
+  .u-block-6981-5 {
+    width: 527px;
+    margin-top: 152px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 60px;
+  }
+}</style><style data-mode="SM" data-visited="true">@media (max-width: 767px) and (min-width: 576px) {
+  .u-block-6981-2 {
+    min-height: 1105px;
+  }
+  .u-block-6981-6 {
+    width: auto;
+    margin-top: 317px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 24px;
+  }
+  .u-block-6981-3 {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 135px;
+    margin-right: auto;
+    margin-bottom: 0;
+    margin-left: 64px;
+    padding-top: 59px;
+    padding-right: 186px;
+    padding-bottom: 59px;
+    padding-left: 185px;
+  }
+  .u-block-6981-5 {
+    width: auto;
+    margin-top: 71px;
+    margin-right: auto;
+    margin-bottom: 60px;
+    margin-left: 13px;
+  }
+}</style><style data-mode="XS" data-visited="true">@media (max-width: 575px) {
+  .u-block-6981-2 {
+    min-height: 678px;
+  }
+  .u-block-6981-6 {
+    width: auto;
+    margin-top: 107px;
+    margin-left: 18px;
+    margin-right: 18px;
+    margin-bottom: 0;
+  }
+  .u-block-6981-3 {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 107px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    padding-top: 59px;
+    padding-right: 132px;
+    padding-bottom: 59px;
+    padding-left: 132px;
+  }
+  .u-block-6981-5 {
+    width: auto;
+    margin-top: 43px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 60px;
+  }
+}</style></section>
+</body></html>"""
+
+@app.get("/speak", response_class=HTMLResponse)
+def speakmicro():
+    rec = Recognizer.Recognizer()
+    text = rec.get_text()
+    return f"""<!DOCTYPE html>
+    <html>
+    <head>
+    <meta charset="utf-8">
+    <title>Кнопка</title>
+    </head>
+    <div>
+    Команда : {text}
+    </div>
+    <body>
+     <form action="/recieve_command&command='{text}'" target="_blank">
+    <button>Нажми если это то что ты говорил</button>
+    </form>
+    </body>
+    <body>
+     <form action="/" target="_blank">
+    <button>Нажми если это не то что ты говорил</button>
+    </form>
+    </body>
+    </html>
+    """
+
+@app.get("/recieve_command{command}")
+def send_command(command : str):
+    command = command[10:-1]
+    return command
+  
 from SpeechValidators import CommandValidator, ZoneValidator
 from SpeechValidators import CommandsInfo
 cv = CommandValidator.CommandValidator(CommandsInfo.comms)
@@ -7,3 +220,4 @@ print(zones)
 zone_info = CommandsInfo.zones
 zv = ZoneValidator.ZoneValidator(zone_info)
 print(zv.check_zone("far", "построить маршрут для точки"))
+develop

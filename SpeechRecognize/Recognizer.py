@@ -11,3 +11,11 @@ class Recognizer:
             audio = self.rec.listen(source)
         text = self.rec.recognize_google(audio, language="ru-RU")
         return text.lower()
+
+
+def RecognizeVoiceToText():
+    rec = Recognizer()
+    try:
+        print(rec.get_text())
+    except Exception:
+        print("something went wrong")
