@@ -35,7 +35,12 @@ pip install -r requirements.txt
 ```shell
 uvicorn main:app
 ```
-
+### Для подключения к бд:
+```shell
+в файлах alembic.ini и settings.py изменить значение sqlalchemy.url на  
+alembic.ini -> sqlalchemy.url = postgresql://user:password@host:port/db_name
+settings.py -> default = "postgresql+asyncpg://user:password@host:port/db_name"
+```
 ### Для поднятия сервисов баз для локальной разработки нужно запустить команду:
 
 ```
@@ -56,7 +61,6 @@ alembic init migrations
 ```
 from myapp import mymodel
 ```
-
 - Дальше вводим: ```alembic revision --autogenerate -m "comment"``` - делается при любых изменениях моделей
 - Будет создана миграция
 - Дальше вводим: ```alembic upgrade heads```
