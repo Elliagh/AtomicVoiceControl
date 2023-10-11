@@ -1,13 +1,9 @@
-from fastapi import FastAPI
-from sql_app.database import SessionLocal
-from sql_app.models import *
-app = FastAPI(
-    title="AtomApp"
-)
-
-
-@app.get("/light_on")
-def light_on(name:str):
-    return SessionLocal.query(Users).all()
-
-CarController =
+from SpeechValidators import CommandValidator, ZoneValidator
+from SpeechValidators import CommandsInfo
+cv = CommandValidator.CommandValidator(CommandsInfo.comms)
+print(cv.find_command("включить свет"))
+zones = CommandsInfo.zones
+print(zones)
+zone_info = CommandsInfo.zones
+zv = ZoneValidator.ZoneValidator(zone_info)
+print(zv.check_zone("far", "построить маршрут для точки"))
