@@ -1,19 +1,16 @@
-from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from SpeechRecognize import Recognizer
 from SpeechValidators import ValidatorZoneAndCommand as vzac, CommandValidator as cv
 from SpeechValidators import ZoneValidator as zv
 from SpeechValidators import CommandsInfo as ci
-from Helpers import GetZone, GetDistance
+from Helpers import GetZone, GetDistance, ConverterStringToCoords
+from fastapi import FastAPI
 
 app = FastAPI(
     title="AtomApp"
 )
 
-@app.get("/", response_class=HTMLResponse)
-def speak():
-    return """
-<!DOCTYPE html>
+html = """<!DOCTYPE html>
 <html style="font-size: 16px;"><head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
@@ -182,10 +179,16 @@ def speak():
 }</style></section>
 </body></html>"""
 
+@app.get("/")
+async def get():
+    return HTMLResponse(html)
+
+
 @app.get("/speak", response_class=HTMLResponse)
 def speakmicro():
     rec = Recognizer.Recognizer()
     text = rec.get_text()
+    user_location = "40.7128 74.00601"
     return f"""<!DOCTYPE html>
     <html>
     <head>
@@ -196,7 +199,7 @@ def speakmicro():
     Команда : {text}
     </div>
     <body>
-     <form action="/recieve_command&command='{text}'" target="_blank">
+     <form action="/recieve_command&command='{text}'&location_user='{user_location}'" target="_blank">
     <button>Нажми если это то что ты говорил</button>
     </form>
     </body>
@@ -208,16 +211,17 @@ def speakmicro():
     </html>
     """
 
-@app.get("/recieve_command{command}{location}", response_class=HTMLResponse)
-def send_command(command : str):
-    command = command[10:]
+@app.get("/recieve_command{command}&{location_user}", response_class=HTMLResponse)
+def send_command(command : str, location_user : str):
+    command = command[10:-1]
+    location_user = location_user[15:-1]
+    print(location_user)
+    user_location = ConverterStringToCoords.ConverterSTringToCoords(location_user)
     print(command)
     car_location = (40.7128, 74.00600)
-    user_location = (40.7128, 74.00601)
     distance = GetDistance.get_distance(user_location, car_location)
     print(distance)
     current_zone = GetZone.get_zone(distance)
-    print(current_zone)
     print(current_zone)
     if not cv.CommandValidator(ci.comms).find_command(command):
             return f"""<!DOCTYPE html>
@@ -253,4 +257,4 @@ def send_command(command : str):
             </body>
             </html>
             """
-    return "heheheha epta"
+    return "success"
