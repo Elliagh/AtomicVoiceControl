@@ -19,12 +19,6 @@ source ./venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Заполнение приватных ключей/токенов
-
-Создаем файл `.env`.
-
-Основываясь на файле `.env.example` заполняем файл `.env`
-
 ## Не забываем и про конфигурацию `venv` в PyCharm если вы работаете там
 
 Переходим в `File > Settings > Project: test > Python Interpreter`
