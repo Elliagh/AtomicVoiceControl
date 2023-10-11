@@ -4,7 +4,7 @@
 
 #### Если еще не клонировали с github
 ```shell
-git clone git@github.com:dakusaido/test.git
+git clone https://github.com/Elliagh/AtomicVoiceControl.git
 cd test 
 ```
 
@@ -39,4 +39,4 @@ pip install -r requirements.txt
 ### Для запуска используем:
 
 ```shell
-python main.py
+uvicorn main:app
