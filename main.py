@@ -1,6 +1,11 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from SpeechRecognize import Recognizer
+from SpeechValidators import ValidatorZoneAndCommand as vzac, CommandValidator as cv
+from SpeechValidators import ZoneValidator as zv
+from SpeechValidators import CommandsInfo as ci
+from Helpers import GetZone, GetDistance
+
 app = FastAPI(
     title="AtomApp"
 )
@@ -203,8 +208,49 @@ def speakmicro():
     </html>
     """
 
-@app.get("/recieve_command{command}")
+@app.get("/recieve_command{command}{location}", response_class=HTMLResponse)
 def send_command(command : str):
-    command = command[10:-1]
-
-    return command
+    command = command[10:]
+    print(command)
+    car_location = (40.7128, 74.00600)
+    user_location = (40.7128, 74.00601)
+    distance = GetDistance.get_distance(user_location, car_location)
+    print(distance)
+    current_zone = GetZone.get_zone(distance)
+    print(current_zone)
+    print(current_zone)
+    if not cv.CommandValidator(ci.comms).find_command(command):
+            return f"""<!DOCTYPE html>
+            <html>
+            <head>
+            <meta charset="utf-8">
+            <title>Кнопка</title>
+            </head>
+            <div>
+            "Command does not exist"
+            </div>
+            <body>
+            <form action="/" target="_blank">
+            <button>Нажми чтобы вернуться обратно (спасите)</button>
+            </form>
+            </body>
+            </html>
+            """
+    if not zv.ZoneValidator(ci.zones).check_zone(current_zone, command):
+            return f"""<!DOCTYPE html>
+            <html>
+            <head>
+            <meta charset="utf-8">
+            <title>Кнопка</title>
+            </head>
+            <div>
+            "Command not available in this zone"
+            </div>
+            <body>
+            <form action="/" target="_blank">
+            <button>Нажми чтобы вернуться обратно (спасите)</button>
+            </form>
+            </body>
+            </html>
+            """
+    return "heheheha epta"
