@@ -5,7 +5,6 @@
 #### Если еще не клонировали с github
 ```shell
 git clone https://github.com/Elliagh/AtomicVoiceControl.git
-cd test 
 ```
 
 #### Установка виртуального окружения
