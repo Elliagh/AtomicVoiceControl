@@ -9,7 +9,6 @@ from sql_app.database import Base
 metadata = Base.metadata
 
 
-# TODO продумать логику many-to-many (users-cars)
 # TODO сделать валидацию (location, car_type[может enum есть])
 class Users(Base):
     __tablename__ = "users"
