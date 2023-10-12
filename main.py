@@ -49,8 +49,8 @@ def send_command(request: Request, command: str, location_user: str):
         return templates.TemplateResponse("WrongCommand.html", {"request": request})
     if not zv.ZoneValidator(ci.zones).check_zone(current_zone, command):
         return templates.TemplateResponse("WrongZone.html", {"request": request})
-    return "success"
-    return command
+    path_request = ci.dict_command_path[command]
+    return RedirectResponse(path_request)
 
 if __name__ == '__main__':
     uvicorn.run(app, host="localhost", port=8080)
