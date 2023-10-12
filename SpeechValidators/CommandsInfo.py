@@ -19,7 +19,8 @@ dict_command_path = {}
 with open(r"SpeechValidators/CommandsPath.txt", encoding="utf-8") as file_paths:
     i = 0
     for line in file_paths.readlines():
-        path = zero_paths.append(line.rstrip('\n'))
+        zero_paths.append(line.rstrip('\n'))
+        path = zero_paths[i]
         dict_command_path[comms[i]] = path
         i = i + 1
 

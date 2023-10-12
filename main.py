@@ -24,7 +24,7 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def get(request: Request):
-    return templates.TemplateResponse("init.html", {"request": request})
+    return templates.TemplateResponse("index.html", {"request": request})
 
 
 @app.get("/speak", response_class=HTMLResponse)
@@ -52,7 +52,9 @@ def send_command(request: Request, command: str, location_user: str):
         return templates.TemplateResponse("WrongCommand.html", {"request": request})
     if not zv.ZoneValidator(ci.zones).check_zone(current_zone, command):
         return templates.TemplateResponse("WrongZone.html", {"request": request})
-    path_request = ci.dict_command_path[command]
+    print(ci.dict_command_path[command])
+    path_request = "/service/" + ci.dict_command_path[command]
+    print(path_request)
     return RedirectResponse(path_request)
 
 
