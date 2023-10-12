@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-    <html>
-    <head>
+<html>
+<head>
     <meta charset="utf-8">
     <title>Кнопка</title>
-    </head>
-    <div>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<div>
     Команда : {{text}}
-    </div>
+</div>
     <body>
-     <form action="/recieve_command&command={{text}}&location_user={{user_location}}" target="_blank">
-    <button>Нажми если это то что ты говорил</button>
+    <form action="/recieve_command&command={{text}}&location_user={{user_location}}" target="_blank">
+        <button>Нажми если это то что ты говорил</button>
     </form>
     </body>
     <body>
-     <form action="/" target="_blank">
-    <button>Нажми если это не то что ты говорил</button>
-    </form>
+        <form action="/" target="_blank">
+        <button href="" class="floating-button">Нажми если это не то что ты говорил</button>
+        </form>
     </body>
-    </html>
+</html>
