@@ -14,3 +14,14 @@ with open(r"SpeechValidators/Zones.txt", encoding="utf-8") as file_zones:
     for line in file_zones:
         zones[comms[i]] = line.rstrip('\n').split(" ")
         i = i + 1
+zero_paths = []
+dict_command_path = {}
+with open(r"SpeechValidators/CommandsPath.txt", encoding="utf-8") as file_paths:
+    i = 0
+    for line in file_paths.readlines():
+        zero_paths.append(line.rstrip('\n'))
+        path = zero_paths[i]
+        dict_command_path[comms[i]] = path
+        i = i + 1
+
+paths = zero_paths
