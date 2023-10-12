@@ -24,10 +24,7 @@ async def get(request: Request):
 @app.get("/speak", response_class=HTMLResponse)
 def speakmicro(request: Request):
     rec = Recognizer.Recognizer()
-    try:
-        text = rec.get_text()
-    except:
-        return RedirectResponse("/")
+    text = rec.get_text()
     user_location = "40.7128 74.00601"
     return templates.TemplateResponse("RightCommandOrNot.html", {"request": request,
                                                                  "text": text, "user_location": user_location})
