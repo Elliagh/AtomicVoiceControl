@@ -1,10 +1,11 @@
+import uvicorn
+from fastapi import FastAPI, APIRouter, Request
 from fastapi.responses import HTMLResponse
 from SpeechRecognize import Recognizer
 from SpeechValidators import ValidatorZoneAndCommand as vzac, CommandValidator as cv
 from SpeechValidators import ZoneValidator as zv
 from SpeechValidators import CommandsInfo as ci
 from Helpers import GetZone, GetDistance, ConverterStringToCoords
-from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 
 app = FastAPI(
@@ -13,6 +14,7 @@ app = FastAPI(
 
 templates = Jinja2Templates(directory="templates")
 
+router = APIRouter()
 
 @app.get("/", response_class=HTMLResponse)
 async def get(request: Request):
@@ -45,3 +47,7 @@ def send_command(request: Request, command: str, location_user: str):
     if not zv.ZoneValidator(ci.zones).check_zone(current_zone, command):
         return templates.TemplateResponse("WrongZone.html", {"request": request})
     return "success"
+    return command
+
+if __name__ == '__main__':
+    uvicorn.run(app, host="localhost", port=8080)
