@@ -9,8 +9,16 @@ git clone https://github.com/Elliagh/AtomicVoiceControl.git
 
 #### Установка виртуального окружения
 ```shell
+
+(для Linux)
+
 python3 -m venv venv
 source ./venv/bin/activate
+
+(для Windows)
+
+python -m venv venv
+venv\Scripts\activate.bat
 ```
 
 #### Установка необходимых компонентов
