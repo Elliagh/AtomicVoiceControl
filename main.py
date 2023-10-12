@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import FastAPI, APIRouter, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
+
 from SpeechRecognize import Recognizer
 from SpeechValidators import ValidatorZoneAndCommand as vzac, CommandValidator as cv
 from SpeechValidators import ZoneValidator as zv
@@ -8,13 +9,18 @@ from SpeechValidators import CommandsInfo as ci
 from Helpers import GetZone, GetDistance, ConverterStringToCoords
 from fastapi.templating import Jinja2Templates
 
+from service_app.utils import service_router
+
 app = FastAPI(
     title="AtomApp"
 )
 
+main_router = APIRouter()
+main_router.include_router(service_router, prefix="/service", tags=["command"])
+app.include_router(main_router)
+
 templates = Jinja2Templates(directory="templates")
 
-router = APIRouter()
 
 @app.get("/", response_class=HTMLResponse)
 async def get(request: Request):
@@ -49,63 +55,6 @@ def send_command(request: Request, command: str, location_user: str):
     path_request = ci.dict_command_path[command]
     return RedirectResponse(path_request)
 
+
 if __name__ == '__main__':
     uvicorn.run(app, host="localhost", port=8080)
-
-
-def light_on():
-    pass
-
-
-def light_off():
-    pass
-
-
-def near_battery_station():
-    pass
-
-def open_door():
-    pass
-
-def close_door():
-    pass
-
-def get_location_car():
-    pass
-
-def get_charge():
-    pass
-
-def on_near_light():
-    pass
-
-def off_near_light():
-    pass
-
-def on_far_light():
-    pass
-
-def off_far_light():
-    pass
-
-def build_route(point):
-    pass
-
-def open_trunk():
-    pass
-
-def close_trunk():
-    pass
-
-def on_conditioner():
-    pass
-
-def off_conditioner():
-    pass
-
-def open_hood():
-    pass
-
-def close_hood():
-    pass
-
