@@ -1,4 +1,6 @@
-from SpeechValidators import CommandValidator as cv, ZoneValidator as zv
+from src.speech_module.SpeechValidators import ZoneValidator as zv, CommandValidator as cv
+
+
 class ValidatorZoneAndCommand:
 
     def __init__(self, commands_info, zones_info):

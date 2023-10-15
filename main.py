@@ -2,14 +2,12 @@ import uvicorn
 from fastapi import FastAPI, APIRouter, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 
-from SpeechRecognize import Recognizer
-from SpeechValidators import ValidatorZoneAndCommand as vzac, CommandValidator as cv
-from SpeechValidators import ZoneValidator as zv
-from SpeechValidators import CommandsInfo as ci
-from Helpers import GetZone, GetDistance, ConverterStringToCoords
+from src.speech_module.SpeechRecognize import Recognizer
+from src.speech_module.SpeechValidators import ZoneValidator as zv, CommandValidator as cv, CommandsInfo as ci
+from src.speech_module.Helpers import ConverterStringToCoords, GetDistance, GetZone
 from fastapi.templating import Jinja2Templates
 
-from service_app.utils import service_router
+from src.service_app.utils import service_router
 
 app = FastAPI(
     title="AtomApp"
@@ -30,10 +28,7 @@ async def get(request: Request):
 @app.get("/speak", response_class=HTMLResponse)
 def speakmicro(request: Request):
     rec = Recognizer.Recognizer()
-    try:
-        text = rec.get_text()
-    except:
-        return RedirectResponse("/")
+    text = rec.get_text()
     user_location = "40.7128 74.00601"
     return templates.TemplateResponse("RightCommandOrNot.html", {"request": request,
                                                                  "text": text, "user_location": user_location})
